@@ -1,3 +1,6 @@
+export const metadata = {
+  title: "بلاگ ها",
+};
 function Layout({ children }) {
   return (
     <div>
