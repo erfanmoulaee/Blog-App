@@ -1,16 +1,14 @@
-import React from "react";
+import { Suspense } from "react";
+import PostList from "./_components/PostList";
+import Spinner from "@/ui/Spinner";
 
 async function BlogPage() {
-  await new Promise((res) => setTimeout(() => res(), 3000));
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post/list`);
-  const {
-    data: { posts },
-  } = await res.json();
   return (
     <div>
-      {posts.map((post) => {
-        return <div>{post.title}</div>;
-      })}
+      <h1>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه د کرد. در این صورت می توان امید داشت که تمام و دشوا</h1>
+      <Suspense fallback={<Spinner />}>
+        <PostList />
+      </Suspense>
     </div>
   );
 }
