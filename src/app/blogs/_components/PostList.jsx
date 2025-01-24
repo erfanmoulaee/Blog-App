@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 async function PostList() {
   await new Promise((res) => setTimeout(() => res(), 3000));
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post/list`);
@@ -5,10 +7,14 @@ async function PostList() {
     data: { posts },
   } = await res.json();
   return (
-    <div>
+    <div className="grid grid-cols-12 gap-8">
       {posts.length > 0
         ? posts.map((post) => {
-            return <div>{post.title}</div>;
+            return (
+              <div key={post.id} className="col-span-12 sm:col-span-6 lg:col-span-4 border border-secondary-100 p-2 rounded-lg">
+                <Image src={post.coverImageUrl} alt="" width={400} height={400} />
+              </div>
+            );
           })
         : null}
     </div>
