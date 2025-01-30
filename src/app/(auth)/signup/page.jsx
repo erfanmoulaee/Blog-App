@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { signupApi } from "@/services/authService";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 const schema = yup
   .object({
