@@ -1,5 +1,5 @@
 "use client";
-import { getUserApi, logoutApi, signupApi, singinApi } from "@/services/authService";
+import { getUserApi, logoutApi, signupApi, signinApi } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useReducer } from "react";
 import toast from "react-hot-toast";
@@ -54,12 +54,13 @@ function authReducer(state, action) {
 export default function AuthProvier({ children }) {
   const router = useRouter();
   const [{ user, isAuthenticated, isLoading }, dispatch] = useReducer(authReducer, initialState);
+
   async function signin(values) {
     dispatch({ type: "loading" });
     try {
       const {
         data: { message, user },
-      } = await singinApi(values);
+      } = await signinApi(values);
       dispatch({ type: "signin", payload: user });
       toast.success(message);
       router.push("/profile");
