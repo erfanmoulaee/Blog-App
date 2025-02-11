@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import Spinner from "@/ui/Spinner";
 
 const schema = yup
   .object({
@@ -36,9 +37,13 @@ function Signin() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
         <RHFTextField label="ایمیل" name="email" register={register} dir="ltr" isRequired errors={errors} />
         <RHFTextField label="رمز عبور" name="password" register={register} type="password" dir="ltr" isRequired errors={errors} />
-        <Button type="submit" variant="primary" className="w-full">
-          ورود
-        </Button>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Button type="submit" variant="primary" className="w-full">
+            ورود
+          </Button>
+        )}
       </form>
       <Link href="/signup" className="text-secondary-500 mt-6 text-center">
         ثبت نام
