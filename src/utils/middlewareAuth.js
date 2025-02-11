@@ -5,7 +5,7 @@ export async function middlewareAuth(req) {
     method: "GET",
     credentials: "include",
     headers: {
-      Cookies: `${accessToken?.name} = ${accessToken?.value};  ${refreshToken?.name} = ${refreshToken?.value};`,
+      Cookie: `${accessToken?.name} = ${accessToken?.value};  ${refreshToken?.name} = ${refreshToken?.value};`,
     },
   });
   const { data } = await rest.json();
