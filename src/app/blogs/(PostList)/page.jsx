@@ -1,18 +1,28 @@
-import { Suspense } from "react";
 import PostList from "../_components/PostList";
-import Spinner from "@/ui/Spinner";
+import { cookies } from "next/headers";
+import setCookiesOnReq from "@/utils/setCookieOnReq";
+import { getPosts } from "@/services/postServices";
+import queryString from "query-string";
 
-export const revalidate = 20;
-export const experimental_ppr = true;
+async function BlogPage({ searchParams }) {
+  const queries = queryString.stringify(await searchParams);
+  const cookieStore = await cookies();
+  const options = setCookiesOnReq(cookieStore);
+  const { posts } = await getPosts(queries, options);
 
-async function BlogPage() {
+  const { search } = searchParams;
+
   return (
-    <div>
-      <h1>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه د کرد. در این صورت می توان امید داشت که تمام و دشوا</h1>
-      <Suspense fallback={<Spinner />}>
-        <PostList />
-      </Suspense>
-    </div>
+    <>
+      {search ? (
+        <p className="mb-4 text-secondary-700">
+          {posts.length === 0 ? "هیچ پستی با این مشخصات پیدا نشد" : `نشان دادن ${posts.length}نتیجه برای `}
+          <span className="font-bold">&quot;{search}&quot;</span>
+        </p>
+      ) : null}
+
+      <PostList posts={posts} />
+    </>
   );
 }
 

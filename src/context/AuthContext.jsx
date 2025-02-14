@@ -1,5 +1,5 @@
 "use client";
-import { getUserApi, logoutApi, signupApi, signinApi } from "@/services/authService";
+import { getUserApi, signupApi, signinApi } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useReducer } from "react";
 import toast from "react-hot-toast";
@@ -40,11 +40,6 @@ function authReducer(state, action) {
       return {
         user: action.payload,
         isAuthenticated: true,
-      };
-    case "logout":
-      return {
-        user: null,
-        isAuthenticated: false,
       };
     default:
       return state;
@@ -105,17 +100,6 @@ export default function AuthProvier({ children }) {
     }
   }
 
-  async function logout() {
-    try {
-      await logoutApi();
-      router.push("/");
-      // document.location.href = "/";
-      dispatch({ type: "logout" });
-    } catch (error) {
-      toast.error(error);
-    }
-  }
-
   useEffect(() => {
     // getUser();
     async function fetchData() {
@@ -132,7 +116,6 @@ export default function AuthProvier({ children }) {
         isLoading,
         signin,
         signup,
-        logout,
         getUser,
       }}>
       {children}
