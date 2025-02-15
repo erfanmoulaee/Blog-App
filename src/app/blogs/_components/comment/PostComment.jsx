@@ -1,12 +1,19 @@
+"use client";
+
 import Button from "@/ui/Button";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import { useState } from "react";
 import Comment from "./Comment";
 import classNames from "classnames";
+import Modal from "@/ui/Modal";
 
 function PostComment({ post: { comments, _id: postId } }) {
+  const [open, setOpen] = useState(true);
   return (
     <div className="mb-10">
+      <Modal open={open} onClose={() => setOpen(false)} title="ss" description="daf">
+        content test ...
+      </Modal>
       <div className="flex flex-col items-center lg:flex-row justify-between gap-y-3 mb-8">
         <h2 className="text-2xl font-bold text-secondary-800">نظرات</h2>
         <Button variant="outline" className="flex items-center py-2">
