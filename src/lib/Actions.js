@@ -21,7 +21,7 @@ export async function createComment(postId, parentId, formData) {
       message,
     };
   } catch (err) {
-    const error = err?.response?.data?.message;
+    console.log(err?.response?.data?.message);
   }
   revalidatePath("/blogs/[slug]");
 }
