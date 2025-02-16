@@ -7,7 +7,7 @@ function Comment({ comment, onAddComment }) {
     <>
       <div className="flex items-center justify-between mb-5 border-b border-b-secondary-200/60 pb-2">
         <div className="flex items-center ">
-          <Avatar height={34} width={34} alt={comment.user?.name || "-"} src={comment.user.avatarUrl} />
+          <Avatar height={34} width={34} alt={comment.user.name || ""} src={comment.user.avatarUrl} />
           <div className="text-sm w-full text-secondary-600">
             <span className="font-bold block mb-1">{comment.user.name}</span>
             <span className="block text-secondary-500 text-xs">{comment.createdAt}</span>
