@@ -1,10 +1,9 @@
 "use client";
 
+import { createComment } from "@/lib/Actions";
 import Button from "@/ui/Button";
 import TextArea from "@/ui/TextArea";
 import { useState } from "react";
-import { useFormState } from "react-dom";
-import toast from "react-hot-toast";
 
 // const initialState = {
 //   error: "",
@@ -27,15 +26,12 @@ const CommentForm = ({ postId, parentId, onClose }) => {
   //     }
   //   }, [state]);
 
-  // const createCommentWithData = createComment.bind(null, postId, parentId);
+  const createCommentWithData = createComment.bind(null, postId, parentId);
   return (
     <div>
       <div className="flex justify-center mt-4">
         <div className="max-w-md  w-full">
-          <form
-            className="space-y-7"
-            // action={createComment.bind(null, postId, parentId)}
-          >
+          <form className="space-y-7" action={createCommentWithData}>
             <TextArea name="text" label="متن نظر" value={text} isRequired onChange={(e) => setText(e.target.value)} />
 
             <Button>تایید</Button>
