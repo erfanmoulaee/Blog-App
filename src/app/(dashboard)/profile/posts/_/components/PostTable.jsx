@@ -4,7 +4,7 @@ import Table from "@/ui/Table";
 import PostRow from "./PostRow";
 
 async function PostTable() {
-  const posts = await getPosts();
+  const { posts } = await getPosts();
 
   if (!posts.length) return <Empty resourceName="پستی" />;
   return (
@@ -19,9 +19,9 @@ async function PostTable() {
         <th>عملیات</th>
       </Table.Header>
       <Table.Body>
-        {posts.map((post, index) => {
-          <PostRow post={post} index={index} key={post._id} />;
-        })}
+        {posts.map((post, index) => (
+          <PostRow post={post} index={index} key={post._id} />
+        ))}
       </Table.Body>
     </Table>
   );
