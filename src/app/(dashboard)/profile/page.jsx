@@ -1,5 +1,6 @@
 import { fetchCardData } from "@/services/data";
 import { Card } from "./_components/Card";
+import PostTable from "./posts/_/components/PostTable";
 
 async function Profile() {
   const { numberOfUsers, numberOfPosts, numberOfComments } = await fetchCardData();
@@ -10,6 +11,7 @@ async function Profile() {
         <Card title="پست ها" value={numberOfPosts} type="posts" />
         <Card title="نظرات" value={numberOfComments} type="comments" />
       </div>
+      <PostTable query="sort=latest&limit=5" />
     </div>
   );
 }
