@@ -13,6 +13,7 @@ export default function Search() {
     const search = e.target.search;
     const searchValue = search.value;
     const newParams = new URLSearchParams(searchParams.toString());
+    newParams.set("page", "1");
     if (searchValue) {
       newParams.set("search", searchValue);
     } else {
