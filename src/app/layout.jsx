@@ -1,8 +1,8 @@
-import Header from "@/components/Header";
 import vazirFont from "@/constants/localFont";
 import AuthProvider from "@/context/AuthContext";
 import "@/styles/globals.css";
 import { Toaster } from "react-hot-toast";
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 export const metadata = {
   tilte: {
@@ -17,7 +17,9 @@ export default function RootLayout({ children }) {
     <html lang="fa" dir="rtl">
       <body className={`${vazirFont.variable} font-sans min-h-screen `}>
         <Toaster />
-        <AuthProvider>{children}</AuthProvider>
+        <ReactQueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
