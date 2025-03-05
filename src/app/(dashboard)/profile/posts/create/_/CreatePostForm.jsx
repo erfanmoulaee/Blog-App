@@ -1,5 +1,6 @@
 "use client";
 import useCategories from "@/hooks/useCategories";
+import Button from "@/ui/Button";
 import ButtonIcon from "@/ui/ButtonIcon";
 import RHFSelect from "@/ui/RHFSelect";
 import RHFTextField from "@/ui/RHFTextField";
@@ -10,12 +11,26 @@ import Image from "next/image";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
+import useCreatePost from "./useCreatePost";
+import Spinner from "@/ui/Spinner";
+import { useRouter } from "next/navigation";
 
-const schema = yup.object();
+const schema = yup
+  .object({
+    title: yup.string().min(5, "حداقل ۵ کاراکتر را وارد کنید").required("عنوان ضروری است"),
+    briefText: yup.string().min(5, "حداقل ۱۰ کاراکتر را وارد کنید").required("توضیحات ضروری است"),
+    text: yup.string().min(5, "حداقل ۱۰ کاراکتر را وارد کنید").required("توضیحات ضروری است"),
+    slug: yup.string().required("اسلاگ ضروری است"),
+    readingTime: yup.number().positive().integer().required("زمان مطالعه ضروری است").typeError("یک عدد را وارد کنید"),
+    category: yup.string().required("دسته بندی ضروری است"),
+  })
+  .required();
 
 function CreatePostForm() {
   const { categories } = useCategories();
   const [coverImageUrl, setCoverImageUrl] = useState(null);
+  const { createPost, isCreating } = useCreatePost();
+  const router = useRouter();
   const {
     control,
     register,
@@ -27,8 +42,19 @@ function CreatePostForm() {
     mode: "onTouched",
     resolver: yupResolver(schema),
   });
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+    createPost(formData, {
+      onSuccess: () => {
+        router.push("/profile/posts");
+      },
+    });
+  };
   return (
-    <form className="form">
+    <form className="form" onSubmit={handleSubmit(onSubmit)}>
       <RHFTextField name="title" label="عنوان" errors={errors} register={register} isRequired />
       <RHFTextField name="briefText" label="متن کوتاه" errors={errors} register={register} isRequired />
       <RHFTextField name="text" label="متن" errors={errors} register={register} isRequired />
@@ -73,6 +99,15 @@ function CreatePostForm() {
           </ButtonIcon>
         </div>
       )}
+      <div>
+        {isCreating ? (
+          <Spinner />
+        ) : (
+          <Button variant="primary" type="submit" className="w-full">
+            تائید
+          </Button>
+        )}
+      </div>
     </form>
   );
 }

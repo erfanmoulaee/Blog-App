@@ -21,3 +21,7 @@ export async function likePostApi(id) {
 export async function bookmarkPostAPI(postId) {
   return await http.post(`/post/bookmark/${postId}`).then(({ data }) => data.data);
 }
+
+export async function createPostApi(data) {
+  return await http.post(`/post/create`, data).then(({ data }) => data.data);
+}
