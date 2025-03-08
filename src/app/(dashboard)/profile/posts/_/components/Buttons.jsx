@@ -4,7 +4,9 @@ import ConfirmDelete from "@/ui/ConfirmDelete";
 import Modal from "@/ui/Modal";
 import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useDeletePost from "../useDeletePost";
+import { useRouter } from "next/navigation";
 
 export function CreatePost() {
   return (
@@ -17,32 +19,33 @@ export function CreatePost() {
   );
 }
 
-export function DeletePost({ post: { _id, postTitle } }) {
+export function DeletePost({ post: { _id: id, title } }) {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-
-  // useEffect(() => {
-  //   if (state?.message) {
-  //     toast.success(state.message);
-  //     setIsDeleteOpen(false);
-  //   }
-  //   if (state?.error) {
-  //     toast.error(state.error);
-  //   }
-  // }, [state]);
+  const { isDeleting, deletePost } = useDeletePost();
+  const router = useRouter();
 
   return (
     <>
       <ButtonIcon variant="outline" onClick={() => setIsDeleteOpen(true)}>
         <TrashIcon className="text-error" />
       </ButtonIcon>
-      <Modal title={`حذف ${postTitle}`} open={isDeleteOpen} onClose={() => setIsDeleteOpen(false)}>
+      <Modal title={`حذف ${title}`} open={isDeleteOpen} onClose={() => setIsDeleteOpen(false)}>
         <ConfirmDelete
-          resourceName={postTitle}
+          resourceName={title}
           onClose={() => setIsDeleteOpen(false)}
           // onConfirm={deletePost.bind(null, postId)}
           onConfirm={(e) => {
-            e.preventDefautl();
+            deletePost(
+              { id },
+              {
+                onSuccess: () => {
+                  setIsDeleteOpen(false);
+                  router.refresh("/profile/posts");
+                },
+              }
+            );
           }}
+          disabled={isDeleting}
         />
       </Modal>
     </>

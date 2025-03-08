@@ -33,3 +33,7 @@ export async function editPostApi({ id, data }) {
 export async function getPostById(id) {
   return await http.get(`/post/${id}`).then(({ data }) => data.data);
 }
+
+export async function deletePostApi({ id }) {
+  return await http.delete(`/post/remove/${id}`).then(({ data }) => data.data);
+}
